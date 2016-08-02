@@ -1,0 +1,161 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+void init(int **board);
+void disp(int **board, int **ava);
+void getava(int **board, int **ava);
+int solve(int **board, int **ava);
+void recur(int **board, int **ava);
+int main(void){
+  int i,j,k;
+  int **board, **ava;
+  if ((board=(int **)malloc(9*sizeof(int *)))==NULL){
+    printf("memory error\n");
+    exit(1);
+  }
+  for (i=0;i<9;i++){
+    if ((board[i]=(int *)malloc(9*sizeof(int)))==NULL){
+      printf("memory error\n");
+    }
+  }
+  if ((ava=(int **)malloc(81*sizeof(int *)))==NULL){
+    printf("memory error\n");
+    exit(1);
+  }
+  for (i=0;i<81;i++){
+    if ((ava[i]=(int *)malloc(9*sizeof(int)))==NULL){
+      printf("memory error\n");
+    }
+  }
+  init(board);
+  while (1){
+    getava(board,ava);
+    if (solve(board,ava)==0){
+      recur(board,ava);
+      break;
+    }
+  }
+  disp(board,ava);
+  for (i=0;i<81;i++){
+    printf("%2d:",i);
+    for (j=0;j<9;j++){
+      printf("%2d ",ava[i][j]);
+    }
+    printf("\n");
+    }
+  return 0;
+}
+void init(int **board){
+  int i,j,n;
+  char str[9];
+  for (i=0;i<9;i++){
+    fgets(str, 11, stdin);
+    for (j=0;j<9;j++){
+      if (str[j]!=' '){
+	n=(int)str[j]-(int)'0';
+	board[i][j]=n;
+      }
+      else{
+	board[i][j]=0;
+      }
+    }
+  }
+}
+void disp(int **board, int **ava){
+  int i,j;
+  for (i=0;i<9;i++){
+    for (j=0;j<9;j++){
+      printf("%3d",board[i][j]);
+    }
+    printf("\n");
+  }
+}
+void getava(int **board, int **ava){
+  int i,j,p,r,n;
+  for (p=0;p<9;p++){
+    for (r=0;r<9;r++){
+      int c=0;
+      int cubex,cubey;
+      for (i=0;i<9;i++){
+	if (board[p][r]!=0){
+	  n=p*9+r;
+	  ava[n][i]=-1;
+	}
+	else{
+	  n=p*9+r;
+	  ava[n][i]=i+1;
+	}
+      }
+      if (board[p][r]!=0)
+	continue;
+      cubex=(r/3)*3;
+      cubey=(p/3)*3;
+      for (i=0;i<9;i++){
+	if (board[p][i]!=0&&ava[9*p+r][board[p][i]-1]!=-1){
+	  ava[9*p+r][board[p][i]-1]=-1;
+	}
+	if (board[i][r]!=0&&ava[9*p+r][board[i][r]-1]!=-1){
+	  ava[9*p+r][board[i][r]-1]=-1;
+	}
+	if (board[cubey+i/3][cubex+i%3]!=0&&ava[9*p+r][board[cubey+i/3][cubex+i%3]-1]!=-1){
+	  ava[9*p+r][board[cubey+i/3][cubex+i%3]-1]=-1;
+	}
+      }
+      if (p==r){
+	for (i=0;i<9;i++){
+	  if (board[i][i]!=0&&ava[9*p+r][board[i][i]-1]!=-1){
+	    ava[9*p+r][board[i][i]-1]=-1;
+	  }
+	}
+      }
+      if (p+r==8){
+	for (i=0;i<9;i++){
+	  if (board[i][8-i]!=0&&ava[9*p+r][board[i][8-i]-1]!=-1){
+	    ava[9*p+r][board[i][8-i]-1]=-1;
+	  }
+	}
+      }
+    }
+  }
+}
+int solve(int **board, int **ava){
+  int i,j,k,c,n,bool=0;
+  for (i=0;i<9;i++){
+    for (j=0;j<9;j++){
+      if (board[i][j]==0){
+	c=0;
+	for (k=0;k<9;k++){
+	  if (ava[9*i+j][k]!=-1){
+	    n=k;
+	    c++;
+	  }
+	}
+	if (c==1){
+	  board[i][j]=ava[9*i+j][n];
+	  bool=1;
+	}
+      }
+    }
+  }
+  return bool;
+}
+void recur(int **board, int **ava){
+  int i,j,k;
+  for (i=0;i<9;i++){
+    for (j=0;j<9;j++){
+      if (board[i][j]==0){
+	for (k=0;k<9;k++){
+	  if (ava[i*9+j][k]!=-1){
+	    board[i][j]=ava[i*9+j][k];
+	    break;
+	  }
+	}
+	getava(board,ava);
+	recur(board,ava);
+	board[i][j]=0;
+      }
+    }
+  }
+  return;
+}

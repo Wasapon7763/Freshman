@@ -1,0 +1,24 @@
+import java.io.*;
+import java.util.*;
+public class prime{
+    public static void main(String args[]){
+	int num[]=new int[100];
+	for (int i=0;i<num.length;i++){
+	    num[i]=i;
+	}
+	for (int i=0;i<num.length;i++){
+	    if (num[i]==0||num[i]==1){
+		num[i]=-1;
+		continue;
+	    }
+	    for (int j=0;j<num.length;j++){
+		if (num[j]%i==0&&num[j]!=i)
+		    num[j]=-1;
+	    }
+	}
+	for (int i=0;i<num.length;i++){
+	    if (num[i]!=-1)
+		System.out.print(num[i]+" ");
+	}
+    }
+}

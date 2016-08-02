@@ -1,0 +1,79 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+void gauss(double **a, double *b,int N);
+int main(int argc, char *argv[]){
+  double **mat1, *mat2, d;
+  FILE *fp;
+  int i,j,N;
+  if ((fp=fopen(argv[1],"r"))==NULL){
+    printf("cannot open %s\n",argv[1]);
+    exit(1);
+  }
+  fscanf(fp,"%d",&N);
+  if ((mat1=(double **)malloc((N+1)*sizeof(double *)))==NULL){
+    printf("out of memory\n");
+    exit(1);
+  }
+  for (i=1;i<=N;i++)
+    mat1[i]=(double *)malloc((N+1)*sizeof(double));
+  mat2=(double *)malloc((N+1)*sizeof(double));
+  for (i=1;i<=N;i++){
+    for (j=1;j<=N;j++){
+      fscanf(fp,"%lf",&d);
+      mat1[i][j]=d;
+    }
+  }
+  for (i=1;i<=N;i++){
+    fscanf(fp,"%lf",&d);
+    mat2[i]=d;
+  }
+  fclose(fp);
+  gauss(mat1, mat2, N);
+  printf("\nAnswer:\n");
+  for (i=1; i<=N; i++)
+    printf("%f ", mat2[i]);
+  printf("\n");
+  return 0;
+}
+void gauss(double **a, double *b, int N){
+  int i, j, k;
+  double alpha, tmp;
+  //前進消去
+  for (k=1; k<=N; k++){
+    int max=k;
+    for (i=k+1;i<=N;i++){
+      if (max<a[i][k]){
+	max=i;
+      }
+    }
+    double hoge;
+    for (i=k;i<=N;i++){
+      hoge=a[k][i];
+      a[k][i]=a[max][i];
+      a[max][i]=hoge;
+    }
+    hoge=b[k];
+    b[k]=b[max];
+    b[max]=hoge;
+    for (i=k+1 ;i<=N; i++){ 
+      if (a[k][k]==0)
+	continue;
+      alpha=-(a[i][k]/a[k][k]);
+      a[i][k]=0;
+      for (j=k+1 ;j<=N; j++){ 
+	a[i][j]=a[i][j]+alpha*a[k][j];
+      }
+      b[i]=b[i]+alpha*b[k];
+    }
+  }
+  //後退代入
+  for (i=N; i>=1; i--){
+    tmp=0;
+    for (j=0; j<4-i; j++){ 
+      tmp+=a[i][N-j]*b[N-j];
+    }
+    b[i]=(b[i]-tmp)/a[i][i];
+  }
+}
+

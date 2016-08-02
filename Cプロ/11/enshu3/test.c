@@ -1,0 +1,64 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define N 7
+typedef struct{
+  int id;
+  char name[30];
+}BOOK;
+int comp_id(const void *a, const void *b){
+  int num1=((BOOK *)a)->id;
+  int num2=((BOOK *)b)->id;
+  return num1-num2;
+}
+int comp_str(const void *a, const void *b){
+  char *str1=((BOOK *)a)->name;
+  char *str2=((BOOK *)b)->name;
+  return strcmp(str1,str2);
+}
+void quick_sort(BOOK *a, int left, int right){
+  int i,j,ii=0,jj=0,key;
+  char hoge[30]="";
+  while (1){
+    key=(left+right)/2;
+    for (i=left+ii;i<key&&strcmp(a[key].name,a[i].name)>-1;i++){
+      printf("%d",strcmp(a[key].name,a[i].name));
+    }
+    for (j=right+jj;j>key&&strcmp(a[key].name,a[j].name)<1;j--){
+    }
+    if (i<j&&i!=key&&j!=key){
+      strcpy(hoge,a[i].name);
+      strcpy(a[i].name,a[j].name);
+      strcpy(a[j].name,hoge);
+      ii++;
+      jj--;
+    }
+    if (i>=j){//complete
+      if (i+1>=2)
+      	quick_sort(a,0,i);
+      if (right-j>=2)
+      	quick_sort(a,j,right);
+      break;
+    }
+    if ((i==key||j==key)&&!(i==key&&j==key)){//if key=min or max
+      strcpy(hoge,a[i].name);
+      strcpy(a[i].name,a[j].name);
+      strcpy(a[j].name,hoge);
+      quick_sort(a,left,right);
+    }
+  }
+}
+int main(void){
+  int i;
+  BOOK item[N]={{120,"book1"}, {42,"C Prog."},{53,"Perl Prog."},
+		{236,"C++ Prog."},{8,"Pascal Prog."},{189,"Lisp Prog."},
+		{35,"JAVA Prog."}};
+  qsort(item,N,sizeof(BOOK),comp_id);
+  for (i=0;i<N;i++)
+    printf("i=%d, name=%s\n",item[i].id,item[i].name);
+  printf("\n");
+  quick_sort(item,0,N-1);
+  for (i=0;i<N;i++)
+    printf("id=%d, name=%s\n",item[i].id,item[i].name);
+  return 0;
+}

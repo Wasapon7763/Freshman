@@ -1,0 +1,45 @@
+void selectsort(int *a, int n){
+  int i,j,min,hoge;
+  for (j=1;j<n-1;j++){
+    min=j;
+    for (i=j+1;i<n;i++){
+      if (a[min]>a[i])
+	min=i;
+    }
+    if (a[j-1]>a[min]){
+      hoge=a[j-1];
+      a[j-1]=a[min];
+      a[min]=hoge;
+    }
+  }
+}
+void quick_sort(int *a, int left, int right){
+  int i,j,ii=0,jj=0,key,hoge;
+  while (1){
+    key=(left+right)/2;
+      for (i=left+ii;i<key&&a[key]>=a[i];i++){
+      }
+      for (j=right+jj;j>key&&a[key]<=a[j];j--){
+      }
+      if (i<j&&i!=key&&j!=key){
+	hoge=a[i];
+	a[i]=a[j];
+	a[j]=hoge;
+	ii++;
+	jj--;
+      }
+      if (i>=j){//complete
+	if (i+1>=2)
+	  quick_sort(a,0,i);
+	if (right-j>=2)
+	  quick_sort(a,j,right);
+	break;
+      }
+      if ((i==key||j==key)&&!(i==key&&j==key)){//if key=min or max
+	hoge=a[i];
+	a[i]=a[j];
+	a[j]=hoge;
+	quick_sort(a,left,right);
+      }
+  }
+}

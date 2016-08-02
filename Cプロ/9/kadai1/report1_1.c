@@ -1,0 +1,27 @@
+#include <stdio.h>
+void heun(double x, double y, double a, double b, int n);
+double f(double x, double y);
+int main(void){
+  int n;
+  double a=0.0, b=0.3, x=0.0, y=1.0;
+  //printf("Please input n:");
+  //scanf("%d",&n);
+  n=30;
+  heun(x,y,a,b,n);
+  return 0;
+}
+void heun(double x, double y, double a, double b, int n){
+  double k1,k2,h=(b-a)/n;
+  int i;
+  printf("\n");
+  for (i=1;i<=n;i++){
+    printf("x=%.10f, y=%.10f\n",x,y);
+    k1=f(x,y);
+    k2=f(x+h,y+h*k1);
+    y+=0.5*h*(k1+k2);
+    x=a+i*h;
+  }
+}
+double f(double x, double y){
+  return (-1)*x*y;
+}

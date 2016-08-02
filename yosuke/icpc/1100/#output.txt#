@@ -1,0 +1,4 @@
+n;
+main(c,k){
+for(read(0,k,4);read(0,&c,1);)
+c>10?n=c-48?k=c-49,n+1:n--?n%=k?k-6&&k-8?3:4:5,!putchar(k?" adgjmptw"[k]+n:".,!? "[n]):0:putchar(c);}

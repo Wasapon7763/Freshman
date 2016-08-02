@@ -1,0 +1,73 @@
+#include <stdio.h>
+#define N 31
+int main(void){
+  int i,j,k,n;
+  scanf("%d",&n);
+  int count[30]={0};;
+  for (i=0;i<n;i++){
+    int floppy[N]={0};
+    int copy[N];
+    scanf("%d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d %d",&floppy[1],&floppy[2],&floppy[3],&floppy[4],&floppy[5],&floppy[6],&floppy[7],&floppy[8],&floppy[9],&floppy[10],&floppy[11],&floppy[12],&floppy[13],&floppy[14],&floppy[15],&floppy[16],&floppy[17],&floppy[18],&floppy[19],&floppy[20],&floppy[21],&floppy[22],&floppy[23],&floppy[24],&floppy[25],&floppy[26],&floppy[27],&floppy[28],&floppy[29],&floppy[30]);
+    while (1){
+      for (j=0;j<N;j++){
+	for (k=0;k<N;k++){
+	  copy[j]=floppy[j];
+	}
+      }
+      if (floppy[8]!=1){
+	floppy[13]=copy[18];
+	floppy[18]=copy[13];
+	floppy[7]=copy[22];
+	floppy[8]=copy[23];
+	floppy[9]=copy[24];
+	floppy[22]=copy[7];
+	floppy[23]=copy[8];
+	floppy[24]=copy[9];
+	floppy[10]=copy[12];
+	floppy[12]=copy[10];
+      }
+      else if(floppy[2]!=1){
+	floppy[15]=copy[16];
+	floppy[16]=copy[15];
+	floppy[1]=copy[28];
+	floppy[2]=copy[29];
+	floppy[3]=copy[30];
+	floppy[28]=copy[1];
+	floppy[29]=copy[2];
+	floppy[30]=copy[3];
+	floppy[19]=copy[21];
+	floppy[21]=copy[19];
+      }
+      else if(floppy[4]!=1){
+	floppy[10]=copy[21];
+	floppy[21]=copy[10];
+	floppy[1]=copy[24];
+	floppy[4]=copy[27];
+	floppy[7]=copy[30];
+	floppy[24]=copy[1];
+	floppy[27]=copy[4];
+	floppy[30]=copy[7];
+	floppy[16]=copy[18];
+	floppy[18]=copy[16];
+      }
+      else if(floppy[6]!=1){
+	floppy[12]=copy[19];
+	floppy[19]=copy[12];
+	floppy[3]=copy[22];
+	floppy[6]=copy[25];
+	floppy[9]=copy[28];
+	floppy[22]=copy[3];
+	floppy[25]=copy[6];
+	floppy[28]=copy[9];
+	floppy[13]=copy[15];
+	floppy[15]=copy[13];
+      }
+      else{
+	break;
+      }
+      count[i]++;
+    }
+    printf("%d\n",count[i]);
+  }
+  return 0;
+}

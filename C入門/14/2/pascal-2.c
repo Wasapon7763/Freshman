@@ -1,0 +1,30 @@
+#include <stdio.h>
+int dash(int n){
+  int i;
+  int ans=1;
+  for (i=n;i>0;i--){
+    ans=ans*i;
+  }
+  return ans;
+}
+int main(void){
+  int i,j;
+  int c=1;
+  int num=0;
+  int pascal[55];
+  int space=30;
+  for (i=0;i<10;i++){
+    for (j=0;j<space;j++){
+      printf(" ");
+    }
+    for (j=0;j<c;j++){
+      pascal[num]=dash(i)/(dash(i-j)*dash(j));
+      printf("%5d ",pascal[num]);
+      num++;
+    }
+    printf("\n");
+    c++;
+    space=space-3;
+  }
+  num=0;
+}

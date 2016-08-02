@@ -1,0 +1,25 @@
+#include <iostream>
+#include <ctime>
+#include <cstdlib>
+using namespace std;
+void disp(int board[5][6]);
+int main(){
+  int rndm;
+  int board[5][6]={0};
+  srand(time(NULL));
+  for (int i=0;i<5;i++){
+    for (int j=0;j<6;j++){
+      rndm=1+rand()%4;
+      board[i][j]=rndm;
+    }
+  }
+}
+void disp(int board[5][6]){
+  for (int i=0;i<5;i++){
+    for (int j=0;j<6;j++){
+      cout<<board[i][j]<<" ";
+    }
+    cout<<endl;
+  }
+}
+

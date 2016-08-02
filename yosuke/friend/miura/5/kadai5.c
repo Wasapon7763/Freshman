@@ -1,0 +1,36 @@
+#include <stdio.h>
+#define N 50
+int main(void){
+  int i,j,tmp;
+  double temp;
+  int id[N];
+  int s1[N];
+  int s2[N];
+  int s3[N];
+  double avg[N];
+  for (i=0;i<N;i++){
+    scanf("%d %d %d %d",&id[i],&s1[i],&s2[i],&s3[i]);
+    avg[i]=(s1[i]+s2[i]+s3[i]+0.0)/3;
+  }
+  for (i=0;i<N-1;i++){
+    for (j=N-1;j>i;j--){
+      if (avg[j-1]>avg[j]){
+	temp=avg[j-1];
+	avg[j-1]=avg[j];
+	avg[j]=temp;
+	tmp=id[j-1];
+	id[j-1]=id[j];
+	id[j]=tmp;
+      }
+    }
+  }
+  printf("学籍番号\t 数学\t 国語\t 英語\t平均点\n");
+  i=0;
+  while (1){
+    if (avg[i]>60)
+      break;
+    printf("%4d\t%4d\t%4d\t%4d\t%5.1f\n",id[i],s1[id[i]-1],s2[id[i]-1],s3[id[i]-1],avg[i]);
+    i++;
+  }
+  return 0;
+}

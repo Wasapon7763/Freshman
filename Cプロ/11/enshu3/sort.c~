@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include "newsort.h"
+void selectsort(PEOPLE *a, int n){
+  int i,j,min,hoge;
+  for (j=1;j<n-1;j++){
+    min=j;
+    for (i=j+1;i<n;i++){
+      if (a[min].height>a[i].height)
+	min=i;
+    }
+    if (a[j-1].height>=a[min].height){
+      hoge=a[j-1].height;
+      a[j-1].height=a[min].height;
+      a[min].height=hoge;
+      hoge=a[j-1].id;
+      a[j-1].id=a[min].id;
+      a[min].id=hoge;
+    }
+  }
+  int start=0,count;
+  while (start<n){
+    count=0;
+    int h=a[start].height;
+    for (i=0;i<n;i++){
+      if (a[i].height==h){
+	count++;
+      }
+    }
+    selectsort_id(a,start,count);
+    start=start+count;
+  }
+}
+void selectsort_id(PEOPLE *a,int start, int count){
+  int i,j,min,hoge;
+  for (j=start+1;j<=start+count-1;j++){
+    min=j;
+    for (i=j+1;i<=start+count-1;i++){
+      if (a[min].id>a[i].id)
+	min=i;
+    }
+    if (a[j-1].id>a[min].id){
+      hoge=a[j-1].id;
+      a[j-1].id=a[min].id;
+      a[min].id=hoge;
+      hoge=a[j-1].height;
+      a[j-1].height=a[min].height;
+      a[min].height=hoge;
+    }
+  }
+}
+void quick_sort(PEOPLE *a, int left, int right){
+  int i,j,ii=0,jj=0,key;
+  char hoge[31]="";
+  int n=0;
+  while (1){
+    key=(left+right)/2;
+    for (i=left+ii;i<key&&strcmp(a[key].code,a[i].code)>-1;i++){
+    }
+    for (j=right+jj;j>key&&strcmp(a[key].code,a[j].code)<1;j--){
+    }
+    if (i<j&&i!=key&&j!=key){
+      strcpy(hoge,a[i].code);
+      strcpy(a[i].code,a[j].code);
+      strcpy(a[j].code,hoge);
+      ii++;
+      jj--;
+    }
+     if (i>=j){//complete
+      if (i+1>=2)
+      	quick_sort(a,0,i);
+      else if (right-j>=2)
+	quick_sort(a,j,right);
+      break;
+     }
+    if ((i==key||j==key)&&!(i==key&&j==key)){//if key=min or max
+      strcpy(hoge,a[i].code);
+      strcpy(a[i].code,a[j].code);
+      strcpy(a[j].code,hoge);
+      quick_sort(a,left,right);
+    }
+  }
+}
